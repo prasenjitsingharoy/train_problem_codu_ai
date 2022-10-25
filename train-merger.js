@@ -1,15 +1,11 @@
 module.exports = class VehicleTrain {
     
-    constructor(dataInput) {
-        
-        this.dataInput = dataInput;
+    constructor(data) {
 
         this.station_after_HYB = {
             "HYB": 0, "NGP": 400, "ITJ": 700, "BPL": 800,
             "AGA": 2500, "NDL": 2700, "PTA": 3800, "NJP": 4200, "GHY": 4700
         };
-
-        this.DeptTrain = [];
     }
     
     printTrainA(input){

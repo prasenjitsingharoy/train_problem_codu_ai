@@ -4,9 +4,7 @@ const vehicleTrain = new VehicleTrain();
 
 class Vehicle {
 
-    constructor(dataInput) {
-
-        this.dataInput = dataInput;
+    constructor(data) {
 
         // Before bhopal, the distances are considered from hyderabad
         // After bhopal, the distances are considered from the source station
@@ -16,16 +14,16 @@ class Vehicle {
         };
 
         // TRAIN AB
-        this.DeptTrain = [];
+        this.departureTrain = [];
         // TRAIN A
-        this.deptTrainA = [];
+        this.departureTrainA = [];
         // TRAIN B
-        this.deptTrainB = [];
+        this.departureTrainB = [];
     }
 
-    main(dataInput) {
+    main(data) {
 
-        var inputLines = dataInput.toString().split('\n');
+        var inputLines = data.toString().split('\n');
 
         // remove spaces (if any) between the words
         inputLines = inputLines.filter(s => s.replace(/\s+/g, '').length !== 0);
@@ -38,10 +36,10 @@ class Vehicle {
                 
                 switch (input[0]) {
                     case 'TRAIN_A':
-                        this.deptTrainA = vehicleTrain.printTrainA(input);
+                        this.departureTrainA = vehicleTrain.printTrainA(input);
                         break;
                     case 'TRAIN_B':
-                        this.deptTrainB = vehicleTrain.printTrainB(input);
+                        this.departureTrainB = vehicleTrain.printTrainB(input);
                         break;
 
                 }
@@ -49,7 +47,7 @@ class Vehicle {
         }
 
         // If there are no boggies that are after hyderabad, return 'JOURNEY_ENDED'
-        if(this.deptTrainA.length === 0 && this.deptTrainB.length === 0){
+        if(this.departureTrainA.length === 0 && this.departureTrainB.length === 0){
             console.log('JOURNEY_ENDED');
             return;
         }
@@ -57,16 +55,16 @@ class Vehicle {
         let startBoggie = ['DEPARTURE', 'TRAIN_AB', 'ENGINE', 'ENGINE'];
 
         // concat trainB to trainA to produce a new array
-        this.DeptTrain = this.deptTrainA.concat(this.deptTrainB);
+        this.departureTrain = this.departureTrainA.concat(this.departureTrainB);
 
         // sorting the trains in descending order based on distance (here distances are stored in id)
-        this.DeptTrain = this.DeptTrain.sort((a, b) => b.id - a.id);
+        this.departureTrain = this.departureTrain.sort((a, b) => b.id - a.id);
         let boggieListToArray = [];
 
         // remove any boggie with id as 0 (ie. HYB)
-        for (let i = 0; i < this.DeptTrain.length; i++) {
-            if (this.DeptTrain[i].id != 0) {
-                boggieListToArray.push(this.DeptTrain[i].name);
+        for (let i = 0; i < this.departureTrain.length; i++) {
+            if (this.departureTrain[i].id != 0) {
+                boggieListToArray.push(this.departureTrain[i].name);
             }
         }
 
