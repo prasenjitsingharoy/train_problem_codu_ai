@@ -101,3 +101,7 @@ You can also use the following script to run the test cases directly
 After npm install Jest based test cases can be executed with the following command from the root folder
 
 `jest`
+
+# Custom Input
+
+If you want to test the code for custom_inputs, please make the changes in the `custom_input.txt` file inside the `sample_input` folder.
