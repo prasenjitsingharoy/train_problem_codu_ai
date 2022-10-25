@@ -3,3 +3,6 @@
 
 # Dependency directories
 node_modules/
+
+.DS_Store 
+sample_input/.DS_Store
