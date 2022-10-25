@@ -1,0 +1,18 @@
+{
+  "name": "train-problem-codu-ai",
+  "version": "1.0.0",
+  "description": "Problem from codu ai",
+  "main": "index.js",
+  "scripts": {
+    "start": "node geektrust.js",
+    "test": "mocha"
+  },
+  "keywords": [],
+  "author": "Prasenjit Singha Roy",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^10.1.0",
+    "nyc": "^15.1.0"
+  }
+}
