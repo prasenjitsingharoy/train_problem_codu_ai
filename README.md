@@ -1,8 +1,8 @@
 # Build
 For NodeJS we support the following dependency/build system as of now
 
-NPM
-Yarn
+* NPM
+* Yarn
 
 If you are using Javascript then your main file should be named as geektrust.js.
 
