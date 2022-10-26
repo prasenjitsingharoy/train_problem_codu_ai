@@ -60,13 +60,12 @@ class Vehicle {
 
     main(data) {
 
-        var inputLines = data.toString().split('\n');
+        let inputLines = data.toString().split('\n');
 
         // remove spaces (if any) between the words
         inputLines = inputLines.filter(s => s.replace(/\s+/g, '').length !== 0);
 
         for (let i = 0; i < inputLines.length; i++) {
-            if (inputLines) {
 
                 // splitting the inputLines to get the Train type (A or B)
                 let input = inputLines[i].split(' ');
@@ -78,9 +77,9 @@ class Vehicle {
                     case 'TRAIN_B':
                         this.departureTrainB = vehicleTrain.printArrivalOfTrain_(input);
                         break;
-
+                    default: 
+                        console.log('Sorry! No match found!');
                 }
-            }
         }
 
         // If there are no boggies that are after hyderabad, return 'JOURNEY_ENDED'
