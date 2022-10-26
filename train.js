@@ -84,7 +84,7 @@ class Vehicle {
         }
 
         // If there are no boggies that are after hyderabad, return 'JOURNEY_ENDED'
-        if(this.departureTrainA.length === 0 && this.departureTrainB.length === 0){
+        if(this.departureTrainA.length === 0 || this.departureTrainB.length === 0){
             console.log('JOURNEY_ENDED');
             return;
         }
