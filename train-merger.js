@@ -7,10 +7,19 @@ module.exports = class VehicleTrain {
             "AGA": 2500, "NDL": 2700, "PTA": 3800, "NJP": 4200, "GHY": 4700
         };
     }
-    
-    printTrainA(input){
 
-        let arrA = ['ARRIVAL', 'TRAIN_A', 'ENGINE'];
+    getFinalResult(boggie){
+        const search = ',';
+        const replaceWith = ' ';
+
+        // replace ',' with ' '
+        const result = boggie.split(search).join(replaceWith);
+
+        return result;
+    }
+
+    printArrivalOfTrain_(input){
+        let train_ArrivalInitials = ['ARRIVAL', input[0], 'ENGINE'];
         let arr = [];
         let tempBoggie = [];
 
@@ -24,7 +33,7 @@ module.exports = class VehicleTrain {
                 // creating a new object with name and id property 
                 // name stores the station names
                 // id stores the distances
-                trainObj ={
+                trainObj = {
                     name: input[i].trim(),
                     id: this.station_after_HYB[input[i].trim()]
                 };
@@ -34,65 +43,13 @@ module.exports = class VehicleTrain {
         }
 
         // concat the arrived boggies with arrival train A initials and convert it to string
-        let boggieList = arrA.concat(arr); 
+        let boggieList = train_ArrivalInitials.concat(arr); 
         let boggie = boggieList.toString();
 
-        const search = ',';
-        const replaceWith = ' ';
-
-        // replace ',' with ' '
-        const result = boggie.split(search).join(replaceWith);
-
-        // if there are no stations after hyderabad, return empty array
-        if(tempBoggie.length === 0){
-            return tempBoggie;
-        }
+        // get the final clean result
+        const result = this.getFinalResult(boggie);
 
         console.log(result.trim());
         return tempBoggie;
-    }
-
-    printTrainB(input){
-
-        let arrA = ['ARRIVAL', 'TRAIN_B', 'ENGINE'];
-        let arr = [];
-        let tempBoggie = [];
-
-        for(let i = 2; i<input.length; i++){
-
-            // checking if the boggies for train B has stations that falls after hyderabad
-            if(this.station_after_HYB.hasOwnProperty(input[i].trim())){
-                arr.push(input[i]);
-                let trainObj = new Object();
-
-                // creating a new object with name and id property 
-                // name stores the station names
-                // id stores the distances
-                trainObj ={
-                    name:input[i].trim(),
-                    id:this.station_after_HYB[input[i].trim()]
-                };
-
-                tempBoggie.push(trainObj);
-            }
-        }
-
-        // concat the arrived boggies with arrival train B initials and convert it to string
-        let boggieList = arrA.concat(arr); 
-        let boggie = boggieList.toString();
-
-        const search = ',';
-        const replaceWith = ' ';
-
-        // replace ',' with ' '
-        const result = boggie.split(search).join(replaceWith);
-
-        // if there are no stations after hyderabad, return empty array
-        if(tempBoggie.length === 0){
-            return tempBoggie;
-        }
-
-        console.log(result.trim());
-        return tempBoggie;
-    }
-  }
+    } 
+}

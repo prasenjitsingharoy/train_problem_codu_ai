@@ -4,21 +4,58 @@ const vehicleTrain = new VehicleTrain();
 
 class Vehicle {
 
-    constructor(data) {
-
+    constructor() {
+        
         // Before bhopal, the distances are considered from hyderabad
         // After bhopal, the distances are considered from the source station
         this.station_after_HYB = {
             'HYB': 0, 'NGP': 400, 'ITJ': 700, 'BPL': 800,
             'AGA': 2500, 'NDL': 2700, 'PTA': 3800, 'NJP': 4200, 'GHY': 4700
         };
-
+        
         // TRAIN AB
         this.departureTrain = [];
         // TRAIN A
         this.departureTrainA = [];
         // TRAIN B
         this.departureTrainB = [];
+    }
+
+    getFinalResult(boggie){
+        const search = ',';
+        const replaceWith = ' ';
+
+        // replace ',' with ' '
+        let result = boggie.split(search).join(replaceWith);
+
+        // If hyderadbad is one of the boggies, replace it with empty string
+        result = result.replace('HYB', '');
+
+        return result;
+    }
+    
+    mergeTrainAwithTrainB(){
+        let departureBoggieInitials = ['DEPARTURE', 'TRAIN_AB', 'ENGINE', 'ENGINE'];
+
+        // concat trainB to trainA to produce a new array
+        this.departureTrain = this.departureTrainA.concat(this.departureTrainB);
+
+        // sorting the trains in descending order based on distance (here distances are stored in id)
+        this.departureTrain = this.departureTrain.sort((a, b) => b.id - a.id);
+        let boggieListToArray = [];
+
+        // remove any boggie with id as 0 (ie. HYB)
+        for (let i = 0; i < this.departureTrain.length; i++) {
+            if (this.departureTrain[i].id != 0) {
+                boggieListToArray.push(this.departureTrain[i].name);
+            }
+        }
+
+        // concatenate the merged train initials with the sorted boggies
+        let boggieList = departureBoggieInitials.concat(boggieListToArray);
+        let boggie = boggieList.toString();
+
+        return boggie;
     }
 
     main(data) {
@@ -36,10 +73,10 @@ class Vehicle {
                 
                 switch (input[0]) {
                     case 'TRAIN_A':
-                        this.departureTrainA = vehicleTrain.printTrainA(input);
+                        this.departureTrainA = vehicleTrain.printArrivalOfTrain_(input);
                         break;
                     case 'TRAIN_B':
-                        this.departureTrainB = vehicleTrain.printTrainB(input);
+                        this.departureTrainB = vehicleTrain.printArrivalOfTrain_(input);
                         break;
 
                 }
@@ -52,34 +89,11 @@ class Vehicle {
             return;
         }
 
-        let startBoggie = ['DEPARTURE', 'TRAIN_AB', 'ENGINE', 'ENGINE'];
+        // get the departing TRAIN_AB
+        let boggie = this.mergeTrainAwithTrainB();
 
-        // concat trainB to trainA to produce a new array
-        this.departureTrain = this.departureTrainA.concat(this.departureTrainB);
-
-        // sorting the trains in descending order based on distance (here distances are stored in id)
-        this.departureTrain = this.departureTrain.sort((a, b) => b.id - a.id);
-        let boggieListToArray = [];
-
-        // remove any boggie with id as 0 (ie. HYB)
-        for (let i = 0; i < this.departureTrain.length; i++) {
-            if (this.departureTrain[i].id != 0) {
-                boggieListToArray.push(this.departureTrain[i].name);
-            }
-        }
-
-        // concatenate the merged train initials with the sorted boggies
-        let boggieList = startBoggie.concat(boggieListToArray);
-        let boggie = boggieList.toString();
-
-        const search = ',';
-        const replaceWith = ' ';
-
-        // replace ',' with ' '
-        let result = boggie.split(search).join(replaceWith);
-
-        // If hyderadbad is one of the boggies, replace it with empty string
-        result = result.replace('HYB', '');
+        // get the final clean result
+        let result = this.getFinalResult(boggie);
 
         console.log(result.trim());
         return result.trim();
