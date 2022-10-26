@@ -1,4 +1,4 @@
-// importing and creating instance of VehicleTrain class
+'use strict'
 const VehicleTrain = require('./train-merger');
 const vehicleTrain = new VehicleTrain();
 
@@ -13,52 +13,39 @@ class Vehicle {
             'AGA': 2500, 'NDL': 2700, 'PTA': 3800, 'NJP': 4200, 'GHY': 4700
         };
         
-        // TRAIN AB
-        this.departureTrain = [];
-        // TRAIN A
-        this.departureTrainA = [];
-        // TRAIN B
-        this.departureTrainB = [];
+        this.departureTrainAB = [];
+        this.arrivalTrainA = [];
+        this.arrivalTrainB = [];
     }
 
+    // function to get the final clean result
     getFinalResult(boggie){
-        const search = ',';
-        const replaceWith = ' ';
-
-        // replace ',' with ' '
-        let result = boggie.split(search).join(replaceWith);
-
-        // If hyderadbad is one of the boggies, replace it with empty string
-        result = result.replace('HYB', '');
-
-        return result;
+        let result = boggie.split(',').join(' ');
+        return result.replace('HYB', '');
     }
     
+    /* function to merge boggies of TrainA with TrainB in descending order based on distance
+       from the Hyderabad station */
     mergeTrainAwithTrainB(){
         let departureBoggieInitials = ['DEPARTURE', 'TRAIN_AB', 'ENGINE', 'ENGINE'];
 
-        // concat trainB to trainA to produce a new array
-        this.departureTrain = this.departureTrainA.concat(this.departureTrainB);
+        this.departureTrainAB = this.arrivalTrainA.concat(this.arrivalTrainB);
 
-        // sorting the trains in descending order based on distance (here distances are stored in id)
-        this.departureTrain = this.departureTrain.sort((a, b) => b.id - a.id);
+        this.departureTrainAB = this.departureTrainAB.sort((a, b) => b.distance - a.distance);
         let boggieListToArray = [];
 
-        // remove any boggie with id as 0 (ie. HYB)
-        for (let i = 0; i < this.departureTrain.length; i++) {
-            if (this.departureTrain[i].id != 0) {
-                boggieListToArray.push(this.departureTrain[i].name);
+        // remove any boggie with distance as 0 (ie. HYB)
+        for (let i = 0; i < this.departureTrainAB.length; i++) {
+            if (this.departureTrainAB[i].distance != 0) {
+                boggieListToArray.push(this.departureTrainAB[i].name);
             }
         }
 
-        // concatenate the merged train initials with the sorted boggies
         let boggieList = departureBoggieInitials.concat(boggieListToArray);
-        let boggie = boggieList.toString();
-
-        return boggie;
+        return boggieList.toString();
     }
 
-    main(data) {
+    getDepartureTrain(data) {
 
         let inputLines = data.toString().split('\n');
 
@@ -67,15 +54,14 @@ class Vehicle {
 
         for (let i = 0; i < inputLines.length; i++) {
 
-                // splitting the inputLines to get the Train type (A or B)
                 let input = inputLines[i].split(' ');
                 
                 switch (input[0]) {
                     case 'TRAIN_A':
-                        this.departureTrainA = vehicleTrain.printArrivalOfTrain_(input);
+                        this.arrivalTrainA = vehicleTrain.printArrivalOfTrain(input);
                         break;
                     case 'TRAIN_B':
-                        this.departureTrainB = vehicleTrain.printArrivalOfTrain_(input);
+                        this.arrivalTrainB = vehicleTrain.printArrivalOfTrain(input);
                         break;
                     default: 
                         console.log('Sorry! No match found!');
@@ -83,15 +69,12 @@ class Vehicle {
         }
 
         // If there are no boggies that are after hyderabad, return 'JOURNEY_ENDED'
-        if(this.departureTrainA.length === 0 || this.departureTrainB.length === 0){
+        if(this.arrivalTrainA.length === 0 || this.arrivalTrainB.length === 0){
             console.log('JOURNEY_ENDED');
             return;
         }
 
-        // get the departing TRAIN_AB
         let boggie = this.mergeTrainAwithTrainB();
-
-        // get the final clean result
         let result = this.getFinalResult(boggie);
 
         console.log(result.trim());

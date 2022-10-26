@@ -8,18 +8,16 @@ module.exports = class VehicleTrain {
         };
     }
 
+    // function to get the final clean result
     getFinalResult(boggie){
-        const search = ',';
-        const replaceWith = ' ';
-
-        // replace ',' with ' '
-        const result = boggie.split(search).join(replaceWith);
-
+        const result = boggie.split(',').join(' ');
         return result;
     }
 
-    printArrivalOfTrain_(input){
-        let train_ArrivalInitials = ['ARRIVAL', input[0], 'ENGINE'];
+    // function to print the arrival of two trains
+    printArrivalOfTrain(input){
+
+        let trainArrivalInitials = ['ARRIVAL', input[0], 'ENGINE'];
         let arr = [];
         let tempBoggie = [];
 
@@ -32,21 +30,19 @@ module.exports = class VehicleTrain {
 
                 // creating a new object with name and id property 
                 // name stores the station names
-                // id stores the distances
+                // distance stores the distances
                 trainObj = {
                     name: input[i].trim(),
-                    id: this.station_after_HYB[input[i].trim()]
+                    distance: this.station_after_HYB[input[i].trim()]
                 };
                 
                 tempBoggie.push(trainObj);
             }
         }
 
-        // concat the arrived boggies with arrival train A initials and convert it to string
-        let boggieList = train_ArrivalInitials.concat(arr); 
+        let boggieList = trainArrivalInitials.concat(arr); 
         let boggie = boggieList.toString();
 
-        // get the final clean result
         const result = this.getFinalResult(boggie);
 
         console.log(result.trim());

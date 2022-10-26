@@ -9,7 +9,7 @@ try{
     
     // creating instance of vehicle class (named Train while importing) and calling the member function 'main'
     let train = new Train();
-    train.main(data)
+    train.getDepartureTrain(data)
 }catch(error){
     console.error('No such file or directory!');
 }
